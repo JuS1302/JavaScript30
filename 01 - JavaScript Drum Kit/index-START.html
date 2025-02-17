@@ -60,6 +60,25 @@
 
 <script>
 
+  window.addEventListener('keydown', function(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`) // on va chercher les audios associés à des keys
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`) // on va chercher la div ket y pour l'effet hover
+    if (!audio) return; //stoppe la fonction quand audio est différent des data-key definies
+    audio.currentTime = 0; // le son reprend au début quand on clique
+    audio.play();
+    key.classList.add('playing'); // on ajoute le hover sur la div key
+  });
+
+  //retirer le hover après la fin du son
+
+  function removeTransition(e){
+    if (e.propertyName !== 'transform') // on sélectionne la class css transform, on skip les autres class
+    this.classList.remove('playing'); // on retire le hover sur la div key
+  }
+
+  const keys = document.querySelectorAll('.key') // on va chercher toutes les keys (array)
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));  //pour chaque key on va écouter la fin du son
+
 </script>
 
 
